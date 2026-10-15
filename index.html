@@ -2,6 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="utf-8">
+<meta name="color-scheme" content="light">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>沙茶咖哩飯點餐</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -187,7 +188,7 @@ function renderTicket(o) {
   const msg = { new: "已收到訂單，等待製作", cooking: "正在製作中", ready: "可以取餐了", done: "已取餐，謝謝光臨", cancelled: "此訂單已取消，請洽店家" }[st] || "";
   $("#ticket").innerHTML = `<div class="ticket"><div><div class="k">您的取餐序號</div><div class="no">${pad(o.serial)}</div></div>` +
     `<div><span class="pill p-${st}">${STATUS[st] || ""}</span> <span class="hint">${msg}</span></div>${wait}` +
-    `<div>${items}<div class="row"><span>暱稱・${esc(o.dine)}</span><span>${esc(o.nick)}</span></div><div class="row"><b>合計</b><b>$${o.total}</b></div></div>` +
+    `<div>${items}<div class="row"><span>暱稱・${esc(o.dine)}</span><span>${esc(o.nick)}</span></div>${o.discount === "free" || o.discount === "half" ? `<div class="row"><span>原價</span><span><s>$${o.total}</s></span></div><div class="row"><b>親友${o.discount === "free" ? "免費" : "半價"}・應付</b><b>$${o.discount === "free" ? 0 : Math.round(o.total / 2)}</b></div>` : `<div class="row"><b>合計</b><b>$${o.total}</b></div>`}</div>` +
     `<p class="hint" style="margin:0">請保持此頁開啟，餐點好了畫面會自動更新。</p>` +
     `<button class="btn sec" type="button" id="again">再點一份</button></div>`;
   $("#again").onclick = () => { if (unsubMine) unsubMine(); unsubMine = null; mine = null; LS("mine", null); render(); };

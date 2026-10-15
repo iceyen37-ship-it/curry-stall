@@ -61,8 +61,9 @@ service cloud.firestore {
       allow list: if isStaff();
       allow create: if validOrder(id);
       allow update: if isStaff()
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt'])
-        && request.resource.data.status in ['new', 'cooking', 'ready', 'done', 'cancelled'];
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status', 'updatedAt', 'discount'])
+        && request.resource.data.status in ['new', 'cooking', 'ready', 'done', 'cancelled']
+        && (!('discount' in request.resource.data) || request.resource.data.discount in ['none', 'half', 'free']);
       allow delete: if isStaff();
     }
   }
